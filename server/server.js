@@ -6,7 +6,7 @@ var mongoose = require("mongoose");
 
 mongoose.Promise = Promise;
 
-var Robot = require("./models/robot.js");
+
 
 var app = express();
 
@@ -23,6 +23,7 @@ app.use(bodyParser.json());
 app.use(express.static("../app/build"));
 
 // Database configuration for mongoose
+console.log(process.env.MONGODB_URI)
 mongoose.connect(process.env.MONGODB_URI);
 // Hook mongoose connection to db
 var db = mongoose.connection;
@@ -37,9 +38,9 @@ db.once("open", function () {
   console.log("Mongoose connection successful.");
 });
 
-app.get("/articlesearch", function (req, res) {
+app.post("/articlesearch", function (req, res) {
   console.log(`we gots paydirt ${req.body}`);
-  res.send("Woo you did stuff");
+  res.json({ hello: "world" });
   // fetch(
   //   `http://api.nytimes.com/svc/search/v1/article?format=json&query=${this
   //     .search.topic}&begin_date=${this.search.start}&end_date=${this.search
@@ -61,16 +62,8 @@ app.get("/articlesearch", function (req, res) {
   //   });
 });
 
-app.post("/robots", function (req, res) {
-  var robot = new Robot(req.body);
-
-  robot.save(function (error, doc) {
-    if (error) {
-      res.send(error);
-    } else {
-      res.send(doc);
-    }
-  });
+app.post("/articlesearch", function (req, res) {
+  console.log("WE DID STUFF");
 });
 
 app.listen(8080, function () {

@@ -9,16 +9,14 @@ class App extends Component {
     super(props);
     this.searchTopic = this.searchTopic.bind(this);
     this.searchArticles = this.searchArticles.bind(this);
-    this.state = { currentSearch: {}, returnedArticles: {} };
+    this.state = { currentSearch: {}, returnedArticles: [] };
   }
 
   searchTopic(search) {
-    console.log(search);
     this.setState({ currentSearch: search });
   }
 
   searchArticles(search) {
-    console.log(search);
     fetch(`/articlesearch`, {
       headers: {
         "content-type": 'application/json'
@@ -27,12 +25,10 @@ class App extends Component {
       body: JSON.stringify(search)
     })
       .then(response => {
-        console.log("STUFF WORKED THANK FUCK", response)
         return response.json();
       })
-      .then(json => {
-        console.log(json);
-        // this.setState({ json });
+      .then(data => {
+        this.setState({ returnedArticles: data.response.docs });
       })
       .catch(error => {
         console.log(error);
@@ -44,13 +40,9 @@ class App extends Component {
       <div className="App">
         <Header />
         <Search searchTopic={this.searchArticles} />
-        <PulledArticles displayArticles={this.state.currentSearch} />
+        <PulledArticles returnedArticles={this.state.returnedArticles} />
       </div>
     );
-  }
-
-  componentDidMount() {
-    //return saved articles?? need react-router at some point
   }
 }
 

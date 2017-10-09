@@ -1,12 +1,12 @@
 require("dotenv").config();
-var express = require("express");
-var bodyParser = require("body-parser");
-var logger = require("morgan");
-var mongoose = require("mongoose");
+const express = require("express");
+const bodyParser = require("body-parser");
+const logger = require("morgan");
+const mongoose = require("mongoose");
+const request = require('request');
+const moment = require('moment');
 
 mongoose.Promise = Promise;
-
-
 
 var app = express();
 
@@ -23,7 +23,6 @@ app.use(bodyParser.json());
 app.use(express.static("../app/build"));
 
 // Database configuration for mongoose
-console.log(process.env.MONGODB_URI)
 mongoose.connect(process.env.MONGODB_URI);
 // Hook mongoose connection to db
 var db = mongoose.connection;
@@ -38,28 +37,36 @@ db.once("open", function () {
   console.log("Mongoose connection successful.");
 });
 
+
 app.post("/articlesearch", function (req, res) {
-  console.log(`we gots paydirt ${req.body}`);
-  res.json({ hello: "world" });
-  // fetch(
-  //   `http://api.nytimes.com/svc/search/v1/article?format=json&query=${this
-  //     .search.topic}&begin_date=${this.search.start}&end_date=${this.search
-  //     .end}&api-key=${nyt}`
-  // )
-  //   .then(response => {
-  //     var contentType = response.headers.get("content-type");
-  //     if (contentType && contentType.includes("application/json")) {
-  //       return response.json();
-  //     }
-  //     throw new TypeError("Oops, we haven't got JSON!");
-  //   })
-  //   .then(json => {
-  //     console.log(json);
-  //     this.setState({ json });
-  //   })
-  //   .catch(error => {
-  //     console.log(error);
-  //   });
+  console.log(req.body);
+  const search = {
+
+  }
+  if (req.body.start.length != 4 || req.body.end.length != 4) {
+    req.body.start = "1990"
+    req.body.end = "1991";
+  };
+
+  const options = {
+    method: 'GET',
+    url: `http://api.nytimes.com/svc/search/v2/articlesearch.json`,
+    qs: req.body,
+    headers: {
+      'api-key': process.env.NYT
+    }
+  };
+
+  request(
+    options, (err, response) => {
+      if (!err) {
+        res.send(response.body);
+      } else {
+        console.log(err)
+      }
+    }
+  )
+
 });
 
 app.post("/articlesearch", function (req, res) {

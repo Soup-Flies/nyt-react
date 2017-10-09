@@ -14,7 +14,6 @@ class Search extends Component {
 
   sendArticle() {
     console.log(this.state);
-    const props = { ...this.props };
     this.props.searchTopic(this.state);
   }
 
@@ -57,7 +56,7 @@ class Search extends Component {
                     className="validate"
                     onChange={this.changeStart}
                   />
-                  <label className={"active startYear"}>Start Year</label>
+                  <label className={"active startYear"}>Start Year (In YYYY Format)</label>
                 </div>
               </div>
             </div>
@@ -70,7 +69,7 @@ class Search extends Component {
                     className="validate"
                     onChange={this.changeEnd}
                   />
-                  <label className={"active endYear"}>End Year</label>
+                  <label className={"active endYear"}>End Year (In YYYY Format)</label>
                 </div>
               </div>
             </div>

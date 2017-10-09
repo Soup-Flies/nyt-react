@@ -9,7 +9,8 @@ class Header extends Component {
         color: 'white'
       },
       active: {
-        color: "#AAAAB5"
+        color: "#AAAAB5",
+        textDecoration: "underline"
       }
     }
     return (
@@ -24,7 +25,7 @@ class Header extends Component {
               <div>
                 <NavLink
                   className="col s6"
-                  to="/home"
+                  exact to="/"
                   style={styles.base}
                   activeStyle={styles.active}>
                   Home

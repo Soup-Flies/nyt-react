@@ -14,7 +14,6 @@ class PulledArticles extends Component {
       <DisplaySection title={"Search Results"}>
         <ul>
           {articles.map(i => {
-
             return (
               <li>
                 <div className="row">
@@ -24,7 +23,9 @@ class PulledArticles extends Component {
                         <span className="card-title">{i.headline.main}</span>
                         <div>{i["pub_date"].slice(0, 10)}</div>
                         <a style={styles} href={i["web_url"]} > Click for more</a>
-
+                        <div>
+                          <a className="waves-effect waves-light btn">Save</a>
+                        </div>
                       </div>
                     </div>
                   </div>

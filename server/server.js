@@ -39,19 +39,22 @@ db.once("open", function () {
 
 
 app.post("/articlesearch", function (req, res) {
-  console.log(req.body);
-  const search = {
 
-  }
   if (req.body.start.length != 4 || req.body.end.length != 4) {
-    req.body.start = "1990"
-    req.body.end = "1991";
+    req.body.start = 1990
+    req.body.end = 1991;
   };
+
+  const search = {
+    q: req.body.topic,
+    begin_date: parseInt(req.body.start + "0101"),
+    end_date: parseInt(req.body.end + "1231")
+  }
 
   const options = {
     method: 'GET',
     url: `http://api.nytimes.com/svc/search/v2/articlesearch.json`,
-    qs: req.body,
+    qs: search,
     headers: {
       'api-key': process.env.NYT
     }

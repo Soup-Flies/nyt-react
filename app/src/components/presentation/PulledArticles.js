@@ -15,7 +15,7 @@ class PulledArticles extends Component {
         <ul>
           {articles.map(i => {
             return (
-              <li>
+              <li key={i._id}>
                 <div className="row">
                   <div className="col s12">
                     <div className="card blue-grey lighten-1">

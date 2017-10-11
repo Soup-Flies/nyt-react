@@ -9,6 +9,29 @@ class SavedArticle extends Component {
     this.displaySavedArticles = this.displaySavedArticles.bind(this);
   }
 
+  componentDidMount() {
+    fetch('/savedarticles')
+      .then(results => results.json())
+      .catch((err) => {
+        console.log('Error: ', err);
+      })
+  }
+
+  deleteArticle(id) {
+    fetch('/savedarticles', {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({ id }),
+    })
+      .then(response => response.json())
+      .then(articles => {
+        this.setState({ articles })
+      })
+      .catch(err => console.warn('Article was not deleted', err))
+  }
+
   displaySavedArticles = () => {
     const styles = {
       color: "#AAAAB5",
@@ -16,7 +39,7 @@ class SavedArticle extends Component {
     }
     if (this.props.articles[0] !== "You have no saved articles") {
       return (
-        this.props.articles.map(i => {
+        this.state.articles.map(i => {
           return (
             <li>
               <div className="row">
@@ -58,7 +81,7 @@ class SavedArticle extends Component {
 }
 
 SavedArticle.propTypes = {
-  articles: PropTypes.object.isRequired
+  articles: PropTypes.array.isRequired
 };
 SavedArticle.defaultProps = {
   articles: ["You have no saved articles"]

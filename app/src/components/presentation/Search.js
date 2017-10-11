@@ -18,12 +18,15 @@ class Search extends Component {
   }
 
   changeTopic(e) {
+    console.log(e.target.value);
     this.setState({ topic: e.target.value });
   }
   changeStart(e) {
+    console.log(e.target.value);
     this.setState({ start: e.target.value });
   }
   changeEnd(e) {
+    console.log(e.target.value);
     this.setState({ end: e.target.value });
   }
 

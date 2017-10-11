@@ -5,6 +5,7 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const request = require('request');
 const moment = require('moment');
+const db = require('./models/articleModel.js');
 
 mongoose.Promise = Promise;
 
@@ -72,8 +73,8 @@ app.post("/articlesearch", function (req, res) {
 
 });
 
-app.post("/articlesearch", function (req, res) {
-  console.log("WE DID STUFF");
+app.get("/savedarticles", function (req, res) {
+  db.getArticles((req, res))
 });
 
 app.listen(8080, function () {

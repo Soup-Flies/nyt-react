@@ -77,6 +77,8 @@ app.get("/savedarticles", function (req, res) {
   db.getArticles((req, res))
 });
 
-app.listen(8080, function () {
+const port = process.env.PORT || 8080;
+
+app.listen(port, function () {
   console.log("App running on port 8080!");
 });
